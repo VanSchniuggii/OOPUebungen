@@ -9,4 +9,8 @@ public class Currency {
         this.exchangeRateToUSD = exchangeRateToUSD;
     }
 
+    public String getName() {
+        return name;
+    }
+
 }

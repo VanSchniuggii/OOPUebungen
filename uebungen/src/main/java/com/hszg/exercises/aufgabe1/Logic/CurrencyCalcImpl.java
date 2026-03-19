@@ -12,6 +12,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         currencies.add(new Currency("USD", 1.0));
         currencies.add(new Currency("GBP", 0.75));
         currencies.add(new Currency("JPY", 110.0));
+        currencies.add(new Currency("CHF", 0.92));
     }
 
     @Override
@@ -51,6 +52,10 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         }
 
         currencies.add(new Currency(name, exchangeRateToUSD));
+    }
+    
+    public List<Currency> getCurrencies() {
+        return currencies;
     }    
 
 }

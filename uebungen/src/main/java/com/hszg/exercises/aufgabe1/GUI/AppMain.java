@@ -13,7 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcImpl;
+
 public class AppMain {
+
+	static CurrencyCalcImpl currencyCalc = new CurrencyCalcImpl();
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(AppMain::createAndShowUI);
@@ -35,7 +39,10 @@ public class AppMain {
 		JTextField outputField = new JTextField(15);
 		outputField.setEditable(false);
 
-		String[] currencies = { "EUR", "USD", "GBP", "JPY" };
+		String[] currencies = new String[currencyCalc.getCurrencies().size()];
+		for (int i = 0; i < currencyCalc.getCurrencies().size(); i++) {
+			currencies[i] = currencyCalc.getCurrencies().get(i).getName();
+		}
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
 		JButton swapDirectionButton = new JButton("Swap");
