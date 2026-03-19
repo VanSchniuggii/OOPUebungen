@@ -1,15 +1,18 @@
 package uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrencyCalcImpl implements CurrencyCalculator {
 
-    static List<Currency> currencies = List.of(
-            new Currency("EUR", 0.85),
-            new Currency("USD", 1.0),
-            new Currency("GBP", 0.75),
-            new Currency("JPY", 110.0)
-    );
+    List<Currency> currencies = new ArrayList<>();
+
+    public CurrencyCalcImpl() {
+        currencies.add(new Currency("EUR", 0.85));
+        currencies.add(new Currency("USD", 1.0));
+        currencies.add(new Currency("GBP", 0.75));
+        currencies.add(new Currency("JPY", 110.0));
+    }
 
     @Override
     public double convert(double amount, String fromCurrency, String toCurrency) {
