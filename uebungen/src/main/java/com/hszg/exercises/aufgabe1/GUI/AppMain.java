@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -35,11 +36,18 @@ public class AppMain {
 		outputField.setEditable(false);
 
 		String[] currencies = { "EUR", "USD", "GBP", "JPY" };
-		JLabel fromLabel = new JLabel("From Currency:");
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
-
-		JLabel toLabel = new JLabel("To Currency:");
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
+		JButton swapDirectionButton = new JButton("Swap");
+
+		JLabel newCurrencyLabel = new JLabel("New Currency:");
+		JTextField newCurrencyField = new JTextField(10);
+
+		JLabel exchangeRateLabel = new JLabel("Exchange Rate:");
+		JTextField exchangeRateField = new JTextField(10);
+		JComboBox<String> referenceCurrency = new JComboBox<>(currencies);
+
+		JButton addCurrencyButton = new JButton("Add Currency");
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -48,6 +56,12 @@ public class AppMain {
 		gbc.gridx = 1;
 		content.add(inputField, gbc);
 
+		gbc.gridx = 2;
+		content.add(fromCurrency, gbc);
+
+		gbc.gridx = 3;
+		content.add(swapDirectionButton, gbc);
+
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		content.add(outputLabel, gbc);
@@ -55,19 +69,35 @@ public class AppMain {
 		gbc.gridx = 1;
 		content.add(outputField, gbc);
 
+		gbc.gridx = 2;
+		content.add(toCurrency, gbc);
+
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		content.add(fromLabel, gbc);
+		content.add(newCurrencyLabel, gbc);
 
 		gbc.gridx = 1;
-		content.add(fromCurrency, gbc);
+		content.add(newCurrencyField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		content.add(toLabel, gbc);
+		content.add(exchangeRateLabel, gbc);
 
 		gbc.gridx = 1;
-		content.add(toCurrency, gbc);
+		content.add(exchangeRateField, gbc);
+
+		gbc.gridx = 2;
+		content.add(referenceCurrency, gbc);
+
+		gbc.gridx = 3;
+		content.add(addCurrencyButton, gbc);
+
+		swapDirectionButton.addActionListener(event -> {
+			Object currentFrom = fromCurrency.getSelectedItem();
+			Object currentTo = toCurrency.getSelectedItem();
+			fromCurrency.setSelectedItem(currentTo);
+			toCurrency.setSelectedItem(currentFrom);
+		});
 
 		frame.add(content, BorderLayout.CENTER);
 		frame.pack();
