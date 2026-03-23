@@ -34,26 +34,26 @@ public class AppMain {
 		gbc.insets = new Insets(8, 8, 8, 8);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-		JLabel inputLabel = new JLabel("Input Amount:");
+		JLabel inputLabel = new JLabel("Amount to convert:");
 		JTextField inputField = new JTextField(15);
 
-		JLabel outputLabel = new JLabel("Output Amount:");
+		JLabel outputLabel = new JLabel("Converted amount:");
 		JTextField outputField = new JTextField(15);
 		outputField.setEditable(false);
 
 		String[] currencies = currencyCalc.getCurrencyNames().toArray(new String[0]);
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
-		JButton swapDirectionButton = new JButton("Swap");
+		JButton swapDirectionButton = new JButton("Swap currencies");
 
-		JLabel newCurrencyLabel = new JLabel("New Currency:");
+		JLabel newCurrencyLabel = new JLabel("Currency to add:");
 		JTextField newCurrencyField = new JTextField(10);
 
-		JLabel exchangeRateLabel = new JLabel("Exchange Rate:");
+		JLabel exchangeRateLabel = new JLabel("1 new currency equals:");
 		JTextField exchangeRateField = new JTextField(10);
 		JComboBox<String> referenceCurrency = new JComboBox<>(currencies);
 
-		JButton addCurrencyButton = new JButton("Add Currency");
+		JButton addCurrencyButton = new JButton("Add currency");
 
 		Runnable recalculate = () -> {
 			try {
