@@ -41,23 +41,23 @@ public class CurrencyCalcTest {
 
         double exchangeRate = currencyCalculator.getExchangeRate(currencies[0], currencies[1]);
 
-        if (exchangeRate != 0.85) {
+        if (exchangeRate != 1/0.85) {
             failed = true;
-            System.out.println("Test EUR to USD failed: expected 0.85, got " + exchangeRate);
+            System.out.println("Test EUR to USD failed: expected " + (1/0.85) + ", got " + exchangeRate);
         }
 
         exchangeRate = currencyCalculator.getExchangeRate(currencies[1], currencies[0]);
 
-        if (exchangeRate != 1/0.85) {
+        if (exchangeRate != 0.85) {
             failed = true;
-            System.out.println("Test USD to EUR failed: expected " + (1/0.85) + ", got " + exchangeRate);
+            System.out.println("Test USD to EUR failed: expected 0.85, got " + exchangeRate);
         }
         
         exchangeRate = currencyCalculator.getExchangeRate(currencies[0], currencies[2]);
 
-        if (exchangeRate != 0.85/0.75) {
+        if (exchangeRate != 0.75/0.85) {
             failed = true;
-            System.out.println("Test EUR to GBP failed: expected " + (0.85/0.75) + ", got " + exchangeRate);
+            System.out.println("Test EUR to GBP failed: expected " + (0.75/0.85) + ", got " + exchangeRate);
         }
 
         return failed;
@@ -68,23 +68,23 @@ public class CurrencyCalcTest {
 
         double convertedAmount = currencyCalculator.convert(100, "EUR", "USD");
 
-        if (convertedAmount != 85) {
+        if (convertedAmount != 100/0.85) {
             failed = true;
-            System.out.println("Test convert EUR to USD failed: expected 85, got " + convertedAmount);
+            System.out.println("Test convert EUR to USD failed: expected " + (100/0.85) + ", got " + convertedAmount);
         }
 
         convertedAmount = currencyCalculator.convert(100, "USD", "EUR");
 
-        if (convertedAmount != 100/0.85) {
+        if (convertedAmount != 85) {
             failed = true;
-            System.out.println("Test convert USD to EUR failed: expected " + (100/0.85) + ", got " + convertedAmount);
+            System.out.println("Test convert USD to EUR failed: expected 85, got " + convertedAmount);
         }
 
         convertedAmount = currencyCalculator.convert(100, "EUR", "GBP");
 
-        if (convertedAmount != 100*0.85/0.75) {
+        if (convertedAmount != 100*0.75/0.85) {
             failed = true;
-            System.out.println("Test convert EUR to GBP failed: expected " + (100*0.85/0.75) + ", got " + convertedAmount);
+            System.out.println("Test convert EUR to GBP failed: expected " + (100*0.75/0.85) + ", got " + convertedAmount);
         }
 
         return failed;
@@ -96,9 +96,9 @@ public class CurrencyCalcTest {
         currencyCalculator.addCurrency("AUD", 1.5, "USD");
 
             double convertedAmount = currencyCalculator.convert(100, "AUD", "USD");
-            if (convertedAmount != 150) {
+            if (Math.abs(convertedAmount - 150.0) > 1e-9) {
                 failed = true;
-                System.out.println("Test convert AUD to USD failed: expected 150, got " + convertedAmount);
+                System.out.println("Test convert AUD to USD failed: expected 150.0, got " + convertedAmount);
             }
 
              convertedAmount = currencyCalculator.convert(100, "USD", "AUD");

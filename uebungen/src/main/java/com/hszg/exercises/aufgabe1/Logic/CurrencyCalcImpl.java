@@ -26,7 +26,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
 
     @Override
     public double getExchangeRate(Currency fromCurrency, Currency toCurrency) {
-        return fromCurrency.exchangeRateToUSD/toCurrency.exchangeRateToUSD;
+        return toCurrency.exchangeRateToUSD / fromCurrency.exchangeRateToUSD;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         }
 
         Currency reference = findCurrencyByName(referenceCurrency);
-        double exchangeRateToUSD = exchangeRate * reference.exchangeRateToUSD;
+        double exchangeRateToUSD = reference.exchangeRateToUSD / exchangeRate;
 
         currencies.add(new Currency(normalizedName, exchangeRateToUSD));
     }
