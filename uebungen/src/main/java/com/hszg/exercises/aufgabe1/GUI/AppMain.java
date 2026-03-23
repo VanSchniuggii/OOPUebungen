@@ -60,7 +60,7 @@ public class AppMain {
 
 		Runnable recalculate = () -> {
 			try {
-				double amount = normalizeValue(inputField.getText().trim());
+				double amount = currencyCalc.normalizeValue(inputField.getText().trim());
 				String from = (String) fromCurrency.getSelectedItem();
 				String to = (String) toCurrency.getSelectedItem();
 				double result = currencyCalc.convert(amount, from, to);
@@ -140,7 +140,7 @@ public class AppMain {
 			
 
 			try {
-				double rate = normalizeValue(exchangeRateField.getText());
+				double rate = currencyCalc.normalizeValue(exchangeRateField.getText());
 				if (rate <= 0) {
 					System.err.println("Exchange rate must be a positive number.");
 					return;
@@ -199,39 +199,6 @@ public class AppMain {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-
-	private static double normalizeValue(String input) {
-			if (input == null) {
-				throw new IllegalArgumentException("Input cannot be null.");
-			}
-
-			String s = input.trim();
-			if (s.isEmpty()) {
-				throw new IllegalArgumentException("Input cannot be empty.");
-			}
-
-			s = s.replace(" ", "").replace("'", "");
-
-			int lastComma = s.lastIndexOf(',');
-			int lastDot = s.lastIndexOf('.');
-
-			if (lastComma >= 0 && lastDot >= 0) {
-				if (lastComma > lastDot) {
-					s = s.replace(".", "");
-					s = s.replace(",", ".");
-				} else {
-					s = s.replace(",", "");
-				}
-			} else if (lastComma >= 0) {
-				s = s.replace(",", ".");
-			}
-
-			if (!s.matches("-?\\d+(\\.\\d+)?")) {
-				throw new IllegalArgumentException("Input must be a valid number.");
-			}
-
-			return Double.parseDouble(s);
-	};
 
 	
 }

@@ -56,6 +56,39 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     
     public List<Currency> getCurrencies() {
         return currencies;
-    }    
+    }
+    
+    public double normalizeValue(String input) {
+			if (input == null) {
+				throw new IllegalArgumentException("Input cannot be null.");
+			}
+
+			String s = input.trim();
+			if (s.isEmpty()) {
+				throw new IllegalArgumentException("Input cannot be empty.");
+			}
+
+			s = s.replace(" ", "").replace("'", "");
+
+			int lastComma = s.lastIndexOf(',');
+			int lastDot = s.lastIndexOf('.');
+
+			if (lastComma >= 0 && lastDot >= 0) {
+				if (lastComma > lastDot) {
+					s = s.replace(".", "");
+					s = s.replace(",", ".");
+				} else {
+					s = s.replace(",", "");
+				}
+			} else if (lastComma >= 0) {
+				s = s.replace(",", ".");
+			}
+
+			if (!s.matches("-?\\d+(\\.\\d+)?")) {
+				throw new IllegalArgumentException("Input must be a valid number.");
+			}
+
+			return Double.parseDouble(s);
+	};
 
 }
