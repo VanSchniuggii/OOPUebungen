@@ -78,7 +78,12 @@ public class AppMain {
 		content.add(fromCurrency, gbc);
 
 		gbc.gridx = 3;
+		gbc.gridy = 0;
+		gbc.gridheight = 2;
+		gbc.fill = GridBagConstraints.NONE;
 		content.add(swapDirectionButton, gbc);
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
