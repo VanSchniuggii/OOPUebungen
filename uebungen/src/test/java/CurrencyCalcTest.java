@@ -93,15 +93,15 @@ public class CurrencyCalcTest {
     static private boolean testAddCurrency() {
         boolean failed = false;
 
-        currencyCalculator.addCurrency("CHF", 0.92, "USD");
+        currencyCalculator.addCurrency("AUD", 1.5, "USD");
 
-            double convertedAmount = currencyCalculator.convert(100, "CHF", "USD");
-            if (convertedAmount != 92) {
+            double convertedAmount = currencyCalculator.convert(100, "AUD", "USD");
+            if (convertedAmount != 150) {
                 failed = true;
-                System.out.println("Test convert CHF to USD failed: expected 92, got " + convertedAmount);
+                System.out.println("Test convert AUD to USD failed: expected 150, got " + convertedAmount);
             }
 
-             convertedAmount = currencyCalculator.convert(100, "USD", "CHF");
+             convertedAmount = currencyCalculator.convert(100, "USD", "AUD");
 
         return failed;
     }

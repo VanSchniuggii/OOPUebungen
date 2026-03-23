@@ -5,21 +5,21 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.Currency;
 import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcImpl;
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalculator;
 
 public class AppMain {
 
-	static CurrencyCalcImpl currencyCalc = new CurrencyCalcImpl();
+	static CurrencyCalculator currencyCalc = new CurrencyCalcImpl();
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(AppMain::createAndShowUI);
@@ -41,10 +41,7 @@ public class AppMain {
 		JTextField outputField = new JTextField(15);
 		outputField.setEditable(false);
 
-		String[] currencies = new String[currencyCalc.getCurrencies().size()];
-		for (int i = 0; i < currencyCalc.getCurrencies().size(); i++) {
-			currencies[i] = currencyCalc.getCurrencies().get(i).getName();
-		}
+		String[] currencies = currencyCalc.getCurrencyNames().toArray(new String[0]);
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
 		JButton swapDirectionButton = new JButton("Swap");
@@ -123,55 +120,41 @@ public class AppMain {
 
 		addCurrencyButton.addActionListener(event -> {
 			String newCurrency = newCurrencyField.getText().trim();
-
-			for (Currency c : currencyCalc.getCurrencies()) {
-				if (c.getName().equalsIgnoreCase(newCurrency.trim())) {
-					System.err.println("Currency already exists.");
-					return;
-				}
-			}			
 			String reference = (String) referenceCurrency.getSelectedItem();
+
 			if (newCurrency.isEmpty() || reference == null) {
-				// Handle empty input (e.g., show a dialog)
 				System.err.println("New currency name and reference currency must be provided.");
 				return;
 			}
 
-			
-
 			try {
 				double rate = normalizeValue(exchangeRateField.getText());
-				if (rate <= 0) {
-					System.err.println("Exchange rate must be a positive number.");
-					return;
-				}
 				currencyCalc.addCurrency(newCurrency, rate, reference);
+
 				String currentFrom = (String) fromCurrency.getSelectedItem();
 				String currentTo = (String) toCurrency.getSelectedItem();
+
 				fromCurrency.removeAllItems();
 				toCurrency.removeAllItems();
 				referenceCurrency.removeAllItems();
-				for (int i = 0; i < currencyCalc.getCurrencies().size(); i++) {
-					String name = currencyCalc.getCurrencies().get(i).getName();
+
+				for (String name : currencyCalc.getCurrencyNames()) {
 					fromCurrency.addItem(name);
 					toCurrency.addItem(name);
 					referenceCurrency.addItem(name);
+				}
 
-					if (name.equals(currentFrom)) {
-						fromCurrency.setSelectedItem(name);
-					}
-					if (name.equals(currentTo)) {
-						toCurrency.setSelectedItem(name);
-					}
+				if (currentFrom != null) {
+					fromCurrency.setSelectedItem(currentFrom);
+				}
+				if (currentTo != null) {
+					toCurrency.setSelectedItem(currentTo);
 				}
 			} catch (Exception e) {
-				// Handle invalid input (e.g., show a dialog)
 				System.err.println("Invalid input for new currency or exchange rate.");
-				return;
 			}
-		});	
+		});
 
-		
 		DocumentListener inputListener = new DocumentListener() {
 			@Override
 			public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -190,7 +173,6 @@ public class AppMain {
 		};
 
 		inputField.getDocument().addDocumentListener(inputListener);
-
 		fromCurrency.addActionListener(event -> recalculate.run());
 		toCurrency.addActionListener(event -> recalculate.run());
 
@@ -201,37 +183,35 @@ public class AppMain {
 	}
 
 	private static double normalizeValue(String input) {
-			if (input == null) {
-				throw new IllegalArgumentException("Input cannot be null.");
-			}
+		if (input == null) {
+			throw new IllegalArgumentException("Input cannot be null.");
+		}
 
-			String s = input.trim();
-			if (s.isEmpty()) {
-				throw new IllegalArgumentException("Input cannot be empty.");
-			}
+		String s = input.trim();
+		if (s.isEmpty()) {
+			throw new IllegalArgumentException("Input cannot be empty.");
+		}
 
-			s = s.replace(" ", "").replace("'", "");
+		s = s.replace(" ", "").replace("'", "");
 
-			int lastComma = s.lastIndexOf(',');
-			int lastDot = s.lastIndexOf('.');
+		int lastComma = s.lastIndexOf(',');
+		int lastDot = s.lastIndexOf('.');
 
-			if (lastComma >= 0 && lastDot >= 0) {
-				if (lastComma > lastDot) {
-					s = s.replace(".", "");
-					s = s.replace(",", ".");
-				} else {
-					s = s.replace(",", "");
-				}
-			} else if (lastComma >= 0) {
+		if (lastComma >= 0 && lastDot >= 0) {
+			if (lastComma > lastDot) {
+				s = s.replace(".", "");
 				s = s.replace(",", ".");
+			} else {
+				s = s.replace(",", "");
 			}
+		} else if (lastComma >= 0) {
+			s = s.replace(",", ".");
+		}
 
-			if (!s.matches("-?\\d+(\\.\\d+)?")) {
-				throw new IllegalArgumentException("Input must be a valid number.");
-			}
+		if (!s.matches("-?\\d+(\\.\\d+)?")) {
+			throw new IllegalArgumentException("Input must be a valid number.");
+		}
 
-			return Double.parseDouble(s);
-	};
-
-	
+		return Double.parseDouble(s);
+	}
 }

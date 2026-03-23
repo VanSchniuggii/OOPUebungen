@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CurrencyCalcImpl implements CurrencyCalculator {
 
-    List<Currency> currencies = new ArrayList<>();
+    private final List<Currency> currencies = new ArrayList<>();
 
     public CurrencyCalcImpl() {
         currencies.add(new Currency("EUR", 0.85));
@@ -17,20 +17,9 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
 
     @Override
     public double convert(double amount, String fromCurrency, String toCurrency) {
-        double exchangeRate = 0d;
-
-        for (Currency from : currencies) {
-            if (from.name.equals(fromCurrency)) {
-                for (Currency to : currencies) {
-                    if (to.name.equals(toCurrency)) {
-                        exchangeRate = getExchangeRate(from, to);
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-
+        Currency from = findCurrencyByName(fromCurrency);
+        Currency to = findCurrencyByName(toCurrency);
+        double exchangeRate = getExchangeRate(from, to);
         return amount * exchangeRate;
         
     }
@@ -42,20 +31,47 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
 
     @Override
     public void addCurrency(String name, double exchangeRate, String referenceCurrency) {
-        double exchangeRateToUSD = 0d;
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Currency name must not be empty.");
+        }
+        if (exchangeRate <= 0) {
+            throw new IllegalArgumentException("Exchange rate must be positive.");
+        }
 
+        String normalizedName = name.trim();
         for (Currency c : currencies) {
-            if (c.name.equals(referenceCurrency)) {
-                exchangeRateToUSD = exchangeRate * c.exchangeRateToUSD;
-                break;
+            if (c.getName().equalsIgnoreCase(normalizedName)) {
+                throw new IllegalArgumentException("Currency already exists.");
             }
         }
 
-        currencies.add(new Currency(name, exchangeRateToUSD));
+        Currency reference = findCurrencyByName(referenceCurrency);
+        double exchangeRateToUSD = exchangeRate * reference.exchangeRateToUSD;
+
+        currencies.add(new Currency(normalizedName, exchangeRateToUSD));
     }
-    
-    public List<Currency> getCurrencies() {
-        return currencies;
-    }    
+
+    @Override
+    public List<String> getCurrencyNames() {
+        List<String> names = new ArrayList<>();
+        for (Currency currency : currencies) {
+            names.add(currency.getName());
+        }
+        return names;
+    }
+
+    private Currency findCurrencyByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Currency name must not be empty.");
+        }
+
+        for (Currency currency : currencies) {
+            if (currency.getName().equalsIgnoreCase(name.trim())) {
+                return currency;
+            }
+        }
+
+        throw new IllegalArgumentException("Unknown currency: " + name);
+    }
 
 }
