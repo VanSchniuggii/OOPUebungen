@@ -110,19 +110,19 @@ public class AppMain {
 			if (currentFrom != null && availableCurrencies.contains(currentFrom)) {
 				fromCurrency.setSelectedItem(currentFrom);
 			} else {
-				fromCurrency.setSelectedIndex(0);
+				fromCurrency.setSelectedItem("EUR");
 			}
 
 			if (currentTo != null && availableCurrencies.contains(currentTo)) {
 				toCurrency.setSelectedItem(currentTo);
 			} else {
-				toCurrency.setSelectedIndex(0);
+				toCurrency.setSelectedItem("EUR");;
 			}
 
 			if (currentReference != null && availableCurrencies.contains(currentReference)) {
 				referenceCurrency.setSelectedItem(currentReference);
 			} else {
-				referenceCurrency.setSelectedIndex(0);
+				referenceCurrency.setSelectedItem("EUR");
 			}
 		};
 
@@ -196,6 +196,8 @@ public class AppMain {
 				recalculate.run();
 			} catch (Exception e) {
 				currencyCalc = previousImplementation;
+				refreshCurrencySelectors.run();
+				recalculate.run();
 				JOptionPane.showMessageDialog(frame,
 						"CurrencyCalcEnumImpl is not ready yet. Standard implementation remains active.",
 						"Implementation Not Ready",
