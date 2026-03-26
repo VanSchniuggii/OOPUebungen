@@ -1,18 +1,10 @@
 package uebungen.src.main.java.com.hszg.exercises.plaenum1.Logic;
 
-public class FunctionTest {
-           
-    int[] map(int[] input, Function f) {
-        int[] result = new int[input.length];
-        for (int i = 0; i < input.length; i++) {
-            result[i] = f.execute(input[i]);
-        }
-        return result;
-    }
+public class FunctionMapTest {
 
     public static void main(String[] args) {
         Function func = new FunctionPlusFive();
-        FunctionTest fTest = new FunctionTest();
+        FunctionMap fTest = new FunctionMap();
         int[] input = {1, 2, 3, 4, 5};
         int[] expectedOutput = {6, 7, 8, 9, 10};
         int[] output = fTest.map(input, func);
@@ -30,4 +22,5 @@ public class FunctionTest {
             System.out.println("Test failed!");
         }
     }
+
 }
