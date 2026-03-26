@@ -9,11 +9,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcEnumImpl;
 import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcImpl;
 import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalculator;
 
@@ -28,6 +33,15 @@ public class AppMain {
 	private static void createAndShowUI() {
 		JFrame frame = new JFrame("Currency Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JMenuBar menuBar = new JMenuBar();
+		JMenu settingsMenu = new JMenu("Settings");
+		JMenuItem standardImplItem = new JMenuItem("Use standard implementation");
+		JMenuItem enumImplItem = new JMenuItem("Use enum implementation (not ready)");
+		settingsMenu.add(standardImplItem);
+		settingsMenu.add(enumImplItem);
+		menuBar.add(settingsMenu);
+		frame.setJMenuBar(menuBar);
 
 		JPanel content = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -70,6 +84,45 @@ public class AppMain {
 				outputField.setText(String.format("%.2f", result));
 			} catch (Exception e) {
 				outputField.setText("");
+			}
+		};
+
+		Runnable refreshCurrencySelectors = () -> {
+			String currentFrom = (String) fromCurrency.getSelectedItem();
+			String currentTo = (String) toCurrency.getSelectedItem();
+			String currentReference = (String) referenceCurrency.getSelectedItem();
+
+			fromCurrency.removeAllItems();
+			toCurrency.removeAllItems();
+			referenceCurrency.removeAllItems();
+
+			java.util.List<String> availableCurrencies = currencyCalc.getCurrencyNames();
+			if (availableCurrencies == null || availableCurrencies.isEmpty()) {
+				throw new IllegalStateException("No currencies available in selected implementation.");
+			}
+
+			for (String name : availableCurrencies) {
+				fromCurrency.addItem(name);
+				toCurrency.addItem(name);
+				referenceCurrency.addItem(name);
+			}
+
+			if (currentFrom != null && availableCurrencies.contains(currentFrom)) {
+				fromCurrency.setSelectedItem(currentFrom);
+			} else {
+				fromCurrency.setSelectedIndex(0);
+			}
+
+			if (currentTo != null && availableCurrencies.contains(currentTo)) {
+				toCurrency.setSelectedItem(currentTo);
+			} else {
+				toCurrency.setSelectedIndex(0);
+			}
+
+			if (currentReference != null && availableCurrencies.contains(currentReference)) {
+				referenceCurrency.setSelectedItem(currentReference);
+			} else {
+				referenceCurrency.setSelectedIndex(0);
 			}
 		};
 
@@ -129,6 +182,27 @@ public class AppMain {
 			recalculate.run();
 		});
 
+		standardImplItem.addActionListener(event -> {
+			currencyCalc = new CurrencyCalcImpl();
+			refreshCurrencySelectors.run();
+			recalculate.run();
+		});
+
+		enumImplItem.addActionListener(event -> {
+			CurrencyCalculator previousImplementation = currencyCalc;
+			try {
+				currencyCalc = new CurrencyCalcEnumImpl();
+				refreshCurrencySelectors.run();
+				recalculate.run();
+			} catch (Exception e) {
+				currencyCalc = previousImplementation;
+				JOptionPane.showMessageDialog(frame,
+						"CurrencyCalcEnumImpl is not ready yet. Standard implementation remains active.",
+						"Implementation Not Ready",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		});
+
 		addCurrencyButton.addActionListener(event -> {
 			String newCurrency = newCurrencyField.getText().trim();
 			String reference = (String) referenceCurrency.getSelectedItem();
@@ -141,26 +215,7 @@ public class AppMain {
 			try {
 				double rate = normalizeValue(exchangeRateField.getText());
 				currencyCalc.addCurrency(newCurrency, rate, reference);
-
-				String currentFrom = (String) fromCurrency.getSelectedItem();
-				String currentTo = (String) toCurrency.getSelectedItem();
-
-				fromCurrency.removeAllItems();
-				toCurrency.removeAllItems();
-				referenceCurrency.removeAllItems();
-
-				for (String name : currencyCalc.getCurrencyNames()) {
-					fromCurrency.addItem(name);
-					toCurrency.addItem(name);
-					referenceCurrency.addItem(name);
-				}
-
-				if (currentFrom != null) {
-					fromCurrency.setSelectedItem(currentFrom);
-				}
-				if (currentTo != null) {
-					toCurrency.setSelectedItem(currentTo);
-				}
+				refreshCurrencySelectors.run();
 			} catch (Exception e) {
 				System.err.println("Invalid input for new currency or exchange rate.");
 			}
