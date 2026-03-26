@@ -19,6 +19,19 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         currencies.add(new Currency("INR", 74.0));
         currencies.add(new Currency("LBP", 89731.97));
         currencies.add(new Currency("KWD", 0.31));
+        currencies.add(new Currency("BTC", 0.00001429));
+        currencies.add(new Currency("NZD", 1.60));
+        currencies.add(new Currency("SEK", 10.40));
+        currencies.add(new Currency("NOK", 10.70));
+        currencies.add(new Currency("DKK", 6.90));
+        currencies.add(new Currency("PLN", 3.95));
+        currencies.add(new Currency("CZK", 22.80));
+        currencies.add(new Currency("MXN", 17.10));
+        currencies.add(new Currency("BRL", 5.10));
+        currencies.add(new Currency("ZAR", 18.20));
+        currencies.add(new Currency("SGD", 1.35));
+        currencies.add(new Currency("HKD", 7.82));
+        currencies.add(new Currency("AED", 3.67));
     }
 
     @Override
