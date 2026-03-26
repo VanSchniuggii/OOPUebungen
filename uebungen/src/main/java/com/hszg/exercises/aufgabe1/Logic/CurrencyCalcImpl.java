@@ -13,6 +13,12 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         currencies.add(new Currency("GBP", 0.75));
         currencies.add(new Currency("JPY", 110.0));
         currencies.add(new Currency("CHF", 0.92));
+        currencies.add(new Currency("CAD", 1.25));
+        currencies.add(new Currency("AUD", 1.35));
+        currencies.add(new Currency("CNY", 6.5));
+        currencies.add(new Currency("INR", 74.0));
+        currencies.add(new Currency("LBP", 89731.97));
+        currencies.add(new Currency("KWD", 0.31));
     }
 
     @Override
