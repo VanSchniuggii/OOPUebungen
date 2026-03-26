@@ -93,9 +93,9 @@ public class CurrencyCalcTest {
     static private boolean testAddCurrency() {
         boolean failed = false;
 
-        currencyCalculator.addCurrency("AUD", 1.5, "USD");
+        currencyCalculator.addCurrency("TST", 1.5, "USD");
 
-            double convertedAmount = currencyCalculator.convert(100, "AUD", "USD");
+            double convertedAmount = currencyCalculator.convert(100, "TST", "USD");
             if (Math.abs(convertedAmount - 150.0) > 1e-9) {
                 failed = true;
                 System.out.println("Test convert AUD to USD failed: expected 150.0, got " + convertedAmount);
