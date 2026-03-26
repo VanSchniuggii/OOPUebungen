@@ -1,6 +1,7 @@
 package uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CurrencyCalcImpl implements CurrencyCalculator {
@@ -77,6 +78,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         for (Currency currency : currencies) {
             names.add(currency.getName());
         }
+        Collections.sort(names);
         return names;
     }
 

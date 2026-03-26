@@ -44,6 +44,10 @@ public class AppMain {
 		String[] currencies = currencyCalc.getCurrencyNames().toArray(new String[0]);
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
+
+		fromCurrency.setSelectedItem("EUR");
+		toCurrency.setSelectedItem("EUR");
+		
 		JButton swapDirectionButton = new JButton("Swap currencies");
 
 		JLabel newCurrencyLabel = new JLabel("Currency to add:");
@@ -52,6 +56,8 @@ public class AppMain {
 		JLabel exchangeRateLabel = new JLabel("1 new currency equals:");
 		JTextField exchangeRateField = new JTextField(10);
 		JComboBox<String> referenceCurrency = new JComboBox<>(currencies);
+
+		referenceCurrency.setSelectedItem("EUR");
 
 		JButton addCurrencyButton = new JButton("Add currency");
 
