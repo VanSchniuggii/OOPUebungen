@@ -32,6 +32,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         currencies.add(new Currency("SGD", 1.35));
         currencies.add(new Currency("HKD", 7.82));
         currencies.add(new Currency("AED", 3.67));
+        currencies.add(new Currency("RUB", 82.26));
     }
 
     @Override
