@@ -70,6 +70,9 @@ public class AppMain {
 		JLabel exchangeRateLabel = new JLabel("1 new currency equals:");
 		JTextField exchangeRateField = new JTextField(10);
 		JComboBox<String> referenceCurrency = new JComboBox<>(currencies);
+		JLabel enumModeInfoLabel = new JLabel(" ");
+		enumModeInfoLabel.setPreferredSize(new java.awt.Dimension(420,36));
+		enumModeInfoLabel.setVerticalAlignment(JLabel.TOP);
 
 		referenceCurrency.setSelectedItem("EUR");
 
@@ -126,6 +129,24 @@ public class AppMain {
 			}
 		};
 
+		Runnable switchAddCurrencyAvailability = () -> {
+			boolean canAdd = currencyCalc instanceof CurrencyCalcImpl;
+			newCurrencyLabel.setEnabled(canAdd);
+			newCurrencyField.setEnabled(canAdd);
+			exchangeRateLabel.setEnabled(canAdd);
+			exchangeRateField.setEnabled(canAdd);
+			referenceCurrency.setEnabled(canAdd);
+			addCurrencyButton.setEnabled(canAdd);
+			if (canAdd) {
+				enumModeInfoLabel.setText("");
+			} else {
+				enumModeInfoLabel.setText("<html><b>Enum implementation active.</b> Adding new currencies is not supported in this mode! Use the standard implementation to enable this feature.</html>");
+			}
+			content.revalidate();
+			content.repaint();
+			
+		};
+
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		content.add(inputLabel, gbc);
@@ -162,6 +183,15 @@ public class AppMain {
 		content.add(newCurrencyField, gbc);
 
 		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridwidth = 4;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.NONE;
+		content.add(enumModeInfoLabel, gbc);
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		gbc.gridx = 0;
 		gbc.gridy = 3;
 		content.add(exchangeRateLabel, gbc);
 
@@ -184,6 +214,7 @@ public class AppMain {
 
 		standardImplItem.addActionListener(event -> {
 			currencyCalc = new CurrencyCalcImpl();
+			switchAddCurrencyAvailability.run();
 			refreshCurrencySelectors.run();
 			recalculate.run();
 		});
@@ -191,7 +222,8 @@ public class AppMain {
 		enumImplItem.addActionListener(event -> {
 			CurrencyCalculator previousImplementation = currencyCalc;
 			try {
-				currencyCalc = new CurrencyCalcEnumImpl();
+				currencyCalc = CurrencyCalcEnumImpl.EUR;
+				switchAddCurrencyAvailability.run();
 				refreshCurrencySelectors.run();
 				recalculate.run();
 			} catch (Exception e) {
@@ -204,6 +236,7 @@ public class AppMain {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		});
+
 
 		addCurrencyButton.addActionListener(event -> {
 			String newCurrency = newCurrencyField.getText().trim();
@@ -282,4 +315,6 @@ public class AppMain {
 
 		return Double.parseDouble(s);
 	}
+
+	
 }
