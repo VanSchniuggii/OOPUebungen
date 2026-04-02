@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
@@ -59,6 +60,12 @@ public class AppMain {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(8, 8, 8, 8);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		JLabel converterHeading = new JLabel("Currency Converter");
+		converterHeading.setFont(converterHeading.getFont().deriveFont(java.awt.Font.BOLD, 16f));
+		JSeparator addSectionSeparator = new JSeparator();
+		JLabel addCurrencyHeading = new JLabel("Add Currency");
+		addCurrencyHeading.setFont(addCurrencyHeading.getFont().deriveFont(java.awt.Font.BOLD, 14f));
 
 		JLabel inputLabel = new JLabel("Amount to convert:");
 		JTextField inputField = new JTextField(15);
@@ -168,6 +175,12 @@ public class AppMain {
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.gridwidth = 4;
+		content.add(converterHeading, gbc);
+		gbc.gridwidth = 1;
+
+		gbc.gridx = 0;
+		gbc.gridy = 1;
 		content.add(inputLabel, gbc);
 
 		gbc.gridx = 1;
@@ -177,7 +190,7 @@ public class AppMain {
 		content.add(fromCurrency, gbc);
 
 		gbc.gridx = 3;
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		gbc.gridheight = 2;
 		gbc.fill = GridBagConstraints.NONE;
 		content.add(swapDirectionButton, gbc);
@@ -185,7 +198,7 @@ public class AppMain {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		gbc.gridx = 0;
-		gbc.gridy = 1;
+		gbc.gridy = 2;
 		content.add(outputLabel, gbc);
 
 		gbc.gridx = 1;
@@ -195,7 +208,17 @@ public class AppMain {
 		content.add(toCurrency, gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
+		gbc.gridwidth = 4;
+		content.add(addSectionSeparator, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		content.add(addCurrencyHeading, gbc);
+		gbc.gridwidth = 1;
+
+		gbc.gridx = 0;
+		gbc.gridy = 5;
 		content.add(newCurrencyShortLabel, gbc);
 
 		gbc.gridx = 1;
@@ -208,7 +231,7 @@ public class AppMain {
 		content.add(newCurrencyVerboseField, gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 7;
 		gbc.gridwidth = 4;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.NONE;
@@ -217,7 +240,7 @@ public class AppMain {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 6;
 		content.add(exchangeRateLabel, gbc);
 
 		gbc.gridx = 1;
