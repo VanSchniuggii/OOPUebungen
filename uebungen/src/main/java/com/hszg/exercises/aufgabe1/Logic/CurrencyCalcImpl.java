@@ -14,31 +14,31 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
 
     private void initializeDefaultCurrencies() {
         currencies.clear();
-        currencies.add(new Currency("EUR", 0.85));
-        currencies.add(new Currency("USD", 1.0));
-        currencies.add(new Currency("GBP", 0.75));
-        currencies.add(new Currency("JPY", 110.0));
-        currencies.add(new Currency("CHF", 0.92));
-        currencies.add(new Currency("CAD", 1.25));
-        currencies.add(new Currency("AUD", 1.35));
-        currencies.add(new Currency("CNY", 6.5));
-        currencies.add(new Currency("INR", 74.0));
-        currencies.add(new Currency("LBP", 89731.97));
-        currencies.add(new Currency("KWD", 0.31));
-        currencies.add(new Currency("BTC", 0.00001429));
-        currencies.add(new Currency("NZD", 1.60));
-        currencies.add(new Currency("SEK", 10.40));
-        currencies.add(new Currency("NOK", 10.70));
-        currencies.add(new Currency("DKK", 6.90));
-        currencies.add(new Currency("PLN", 3.95));
-        currencies.add(new Currency("CZK", 22.80));
-        currencies.add(new Currency("MXN", 17.10));
-        currencies.add(new Currency("BRL", 5.10));
-        currencies.add(new Currency("ZAR", 18.20));
-        currencies.add(new Currency("SGD", 1.35));
-        currencies.add(new Currency("HKD", 7.82));
-        currencies.add(new Currency("AED", 3.67));
-        currencies.add(new Currency("RUB", 82.26));
+        currencies.add(new Currency("EUR (Euro)", 0.85));
+        currencies.add(new Currency("USD (US Dollar)", 1.0));
+        currencies.add(new Currency("GBP (Great Britain Pound)", 0.75));
+        currencies.add(new Currency("JPY (Japanese Yen)", 110.0));
+        currencies.add(new Currency("CHF (Swiss Franc)", 0.92));
+        currencies.add(new Currency("CAD (Canadian Dollar)", 1.25));
+        currencies.add(new Currency("AUD (Australian Dollar)", 1.35));
+        currencies.add(new Currency("CNY (Chinese Yuan)", 6.5));
+        currencies.add(new Currency("INR (Indian Rupees)", 74.0));
+        currencies.add(new Currency("LBP (Lebanese Pounds)", 89731.97));
+        currencies.add(new Currency("KWD (Kuwait Dollar)", 0.31));
+        currencies.add(new Currency("BTC (Bitcoin)", 0.00001429));
+        currencies.add(new Currency("NZD (New Zealand Dollar)", 1.60));
+        currencies.add(new Currency("SEK (Swedish Krona)", 10.40));
+        currencies.add(new Currency("NOK (Norwegian Krone)", 10.70));
+        currencies.add(new Currency("DKK (Danish Krone)", 6.90));
+        currencies.add(new Currency("PLN (Polish Zloty)", 3.95));
+        currencies.add(new Currency("CZK (Czech Koruna)", 22.80));
+        currencies.add(new Currency("MXN (Mexican Peso)", 17.10));
+        currencies.add(new Currency("BRL (Brazilian Real)", 5.10));
+        currencies.add(new Currency("ZAR (South African Rand)", 18.20));
+        currencies.add(new Currency("SGD (Singapore Dollar)", 1.35));
+        currencies.add(new Currency("HKD (Hong Kong Dollar)", 7.82));
+        currencies.add(new Currency("AED (UAE Dirham)", 3.67));
+        currencies.add(new Currency("RUB (Russian Ruble)", 82.26));
     }
 
     @Override
