@@ -67,17 +67,21 @@ public class AppMain {
 		JTextField outputField = new JTextField(15);
 		outputField.setEditable(false);
 
-		String[] currencies = currencyCalc.getCurrencyNames().toArray(new String[0]);
+		java.util.List<String> initialCurrencies = currencyCalc.getCurrencyNames();
+		String[] currencies = initialCurrencies.toArray(new String[0]);
 		JComboBox<String> fromCurrency = new JComboBox<>(currencies);
 		JComboBox<String> toCurrency = new JComboBox<>(currencies);
+		String defaultCurrency = findCurrencyByCode(initialCurrencies, "EUR");
 
-		fromCurrency.setSelectedItem("EUR");
-		toCurrency.setSelectedItem("EUR");
+		fromCurrency.setSelectedItem(defaultCurrency);
+		toCurrency.setSelectedItem(defaultCurrency);
 		
 		JButton swapDirectionButton = new JButton("Swap currencies");
 
-		JLabel newCurrencyLabel = new JLabel("Currency to add:");
-		JTextField newCurrencyField = new JTextField(10);
+		JLabel newCurrencyShortLabel = new JLabel("New currency code:");
+		JTextField newCurrencyShortField = new JTextField(8);
+		JLabel newCurrencyVerboseLabel = new JLabel("New currency name:");
+		JTextField newCurrencyVerboseField = new JTextField(12);
 
 		JLabel exchangeRateLabel = new JLabel("1 new currency equals:");
 		JTextField exchangeRateField = new JTextField(10);
@@ -86,7 +90,7 @@ public class AppMain {
 		enumModeInfoLabel.setPreferredSize(new java.awt.Dimension(420,36));
 		enumModeInfoLabel.setVerticalAlignment(JLabel.TOP);
 
-		referenceCurrency.setSelectedItem("EUR");
+		referenceCurrency.setSelectedItem(defaultCurrency);
 
 		JButton addCurrencyButton = new JButton("Add currency");
 
@@ -115,6 +119,7 @@ public class AppMain {
 			if (availableCurrencies == null || availableCurrencies.isEmpty()) {
 				throw new IllegalStateException("No currencies available in selected implementation.");
 			}
+			String fallbackCurrency = findCurrencyByCode(availableCurrencies, "EUR");
 
 			for (String name : availableCurrencies) {
 				fromCurrency.addItem(name);
@@ -125,26 +130,28 @@ public class AppMain {
 			if (currentFrom != null && availableCurrencies.contains(currentFrom)) {
 				fromCurrency.setSelectedItem(currentFrom);
 			} else {
-				fromCurrency.setSelectedItem("EUR");
+				fromCurrency.setSelectedItem(fallbackCurrency);
 			}
 
 			if (currentTo != null && availableCurrencies.contains(currentTo)) {
 				toCurrency.setSelectedItem(currentTo);
 			} else {
-				toCurrency.setSelectedItem("EUR");;
+				toCurrency.setSelectedItem(fallbackCurrency);
 			}
 
 			if (currentReference != null && availableCurrencies.contains(currentReference)) {
 				referenceCurrency.setSelectedItem(currentReference);
 			} else {
-				referenceCurrency.setSelectedItem("EUR");
+				referenceCurrency.setSelectedItem(fallbackCurrency);
 			}
 		};
 
 		Runnable switchAddCurrencyAvailability = () -> {
 			boolean canAdd = currencyCalc instanceof CurrencyCalcImpl;
-			newCurrencyLabel.setEnabled(canAdd);
-			newCurrencyField.setEnabled(canAdd);
+			newCurrencyShortLabel.setEnabled(canAdd);
+			newCurrencyShortField.setEnabled(canAdd);
+			newCurrencyVerboseLabel.setEnabled(canAdd);
+			newCurrencyVerboseField.setEnabled(canAdd);
 			exchangeRateLabel.setEnabled(canAdd);
 			exchangeRateField.setEnabled(canAdd);
 			referenceCurrency.setEnabled(canAdd);
@@ -189,10 +196,16 @@ public class AppMain {
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		content.add(newCurrencyLabel, gbc);
+		content.add(newCurrencyShortLabel, gbc);
 
 		gbc.gridx = 1;
-		content.add(newCurrencyField, gbc);
+		content.add(newCurrencyShortField, gbc);
+
+		gbc.gridx = 2;
+		content.add(newCurrencyVerboseLabel, gbc);
+
+		gbc.gridx = 3;
+		content.add(newCurrencyVerboseField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
@@ -257,18 +270,24 @@ public class AppMain {
 
 
 		addCurrencyButton.addActionListener(event -> {
-			String newCurrency = newCurrencyField.getText().trim();
+			String newCurrencyCode = newCurrencyShortField.getText().trim();
+			String newCurrencyName = newCurrencyVerboseField.getText().trim();
 			String reference = (String) referenceCurrency.getSelectedItem();
 
-			if (newCurrency.isEmpty() || reference == null) {
-				System.err.println("New currency name and reference currency must be provided.");
+			if (newCurrencyCode.isEmpty() || newCurrencyName.isEmpty() || reference == null) {
+				System.err.println("Currency code, currency name and reference currency must be provided.");
 				return;
 			}
 
 			try {
 				double rate = normalizeValue(exchangeRateField.getText());
-				currencyCalc.addCurrency(newCurrency, rate, reference);
+				String formattedCurrencyName = formatCurrencyName(newCurrencyCode, newCurrencyName);
+				currencyCalc.addCurrency(formattedCurrencyName, rate, reference);
 				refreshCurrencySelectors.run();
+				newCurrencyShortField.setText("");
+				newCurrencyVerboseField.setText("");
+				exchangeRateField.setText("");
+				newCurrencyShortField.requestFocusInWindow();
 			} catch (Exception e) {
 				System.err.println("Invalid input for new currency or exchange rate.");
 			}
@@ -299,6 +318,31 @@ public class AppMain {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	private static String findCurrencyByCode(java.util.List<String> currencies, String code) {
+		if (currencies == null || currencies.isEmpty() || code == null || code.trim().isEmpty()) {
+			return null;
+		}
+
+		String normalizedCode = code.trim().toUpperCase();
+		for (String currency : currencies) {
+			if (currency != null && currency.toUpperCase().startsWith(normalizedCode + " (")) {
+				return currency;
+			}
+		}
+
+		for (String currency : currencies) {
+			if (currency != null && currency.equalsIgnoreCase(normalizedCode)) {
+				return currency;
+			}
+		}
+
+		return currencies.get(0);
+	}
+
+	private static String formatCurrencyName(String code, String verboseName) {
+		return code.trim().toUpperCase() + " (" + verboseName.trim() + ")";
 	}
 
 	private static double normalizeValue(String input) {
