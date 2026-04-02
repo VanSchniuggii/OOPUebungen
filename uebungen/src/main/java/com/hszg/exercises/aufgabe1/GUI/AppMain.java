@@ -37,7 +37,7 @@ public class AppMain {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu settingsMenu = new JMenu("Settings");
 		JMenuItem standardImplItem = new JMenuItem("Use standard implementation");
-		JMenuItem enumImplItem = new JMenuItem("Use enum implementation (not ready)");
+		JMenuItem enumImplItem = new JMenuItem("Use enum implementation (adding currencies not supported)");
 		settingsMenu.add(standardImplItem);
 		settingsMenu.add(enumImplItem);
 		menuBar.add(settingsMenu);
