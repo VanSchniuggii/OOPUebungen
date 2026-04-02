@@ -6,6 +6,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -107,7 +110,7 @@ public class AppMain {
 				String from = (String) fromCurrency.getSelectedItem();
 				String to = (String) toCurrency.getSelectedItem();
 				double result = currencyCalc.convert(amount, from, to);
-				outputField.setText(String.format("%.2f", result));
+				outputField.setText(formatConvertedAmount(result));
 			} catch (Exception e) {
 				outputField.setText("");
 			}
@@ -366,6 +369,19 @@ public class AppMain {
 
 	private static String formatCurrencyName(String code, String verboseName) {
 		return code.trim().toUpperCase() + " (" + verboseName.trim() + ")";
+	}
+
+	private static String formatConvertedAmount(double value) {
+		double absoluteValue = Math.abs(value);
+		if (absoluteValue > 0 && absoluteValue < 0.01) {
+			DecimalFormat tinyValueFormatter = new DecimalFormat("0.00000000", DecimalFormatSymbols.getInstance(Locale.US));
+			tinyValueFormatter.setGroupingUsed(false);
+			return tinyValueFormatter.format(value);
+		}
+
+		DecimalFormat standardFormatter = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
+		standardFormatter.setGroupingUsed(false);
+		return standardFormatter.format(value);
 	}
 
 	private static double normalizeValue(String input) {
