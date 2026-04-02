@@ -40,4 +40,23 @@ public interface CurrencyCalculator {
      * @return a list of configured currency names
      */
     List<String> getCurrencyNames();
+
+    
+    /**
+     * Returns a list of all configured currencies.
+     * 
+     * @return a list of all configured currencies
+     *
+     * @param currencies the list of currencies to save
+     */
+    void saveCurrencyData(List<Currency> currencies);
+
+
+    /**
+     * Loads currency data from a persistent storage (e.g., a JSON file) and initializes the internal currency list.
+     * This method should be called during the initialization of the currency calculator to ensure that previously saved currencies are available for conversion.
+     * 
+     * 
+     */
+    void loadCurrencyData();
 }

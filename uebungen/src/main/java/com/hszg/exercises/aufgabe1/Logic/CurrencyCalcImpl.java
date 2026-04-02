@@ -9,6 +9,18 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     private final List<Currency> currencies = new ArrayList<>();
 
     public CurrencyCalcImpl() {
+        try {
+            List<Currency> loadedCurrencies = new DataLoader().loadData();
+            if (loadedCurrencies.isEmpty()) {
+                throw new IllegalStateException("No persisted currencies found.");
+            }
+            currencies.addAll(loadedCurrencies);
+        } catch (RuntimeException e) {
+            initializeDefaultCurrencies();
+        }
+    }
+
+    private void initializeDefaultCurrencies() {
         currencies.add(new Currency("EUR", 0.85));
         currencies.add(new Currency("USD", 1.0));
         currencies.add(new Currency("GBP", 0.75));
@@ -70,6 +82,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         double exchangeRateToUSD = reference.exchangeRateToUSD / exchangeRate;
 
         currencies.add(new Currency(normalizedName, exchangeRateToUSD));
+        saveCurrencyData(currencies);
     }
 
     @Override
@@ -94,6 +107,20 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         }
 
         throw new IllegalArgumentException("Unknown currency: " + name);
+    }
+
+    @Override
+    public void saveCurrencyData(List<Currency> currencies) {
+        new DataWriter().writeDate(currencies);
+    }
+
+    @Override
+    public void loadCurrencyData() {
+        List<Currency> loadedCurrencies = new DataLoader().loadData();
+        if (!loadedCurrencies.isEmpty()) {
+            currencies.clear();
+            currencies.addAll(loadedCurrencies);
+        }
     }
 
 }
