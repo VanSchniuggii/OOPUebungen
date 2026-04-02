@@ -9,18 +9,11 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     private final List<Currency> currencies = new ArrayList<>();
 
     public CurrencyCalcImpl() {
-        try {
-            List<Currency> loadedCurrencies = new DataLoader().loadData();
-            if (loadedCurrencies.isEmpty()) {
-                throw new IllegalStateException("No persisted currencies found.");
-            }
-            currencies.addAll(loadedCurrencies);
-        } catch (RuntimeException e) {
-            initializeDefaultCurrencies();
-        }
+        loadCurrencyData();
     }
 
     private void initializeDefaultCurrencies() {
+        currencies.clear();
         currencies.add(new Currency("EUR", 0.85));
         currencies.add(new Currency("USD", 1.0));
         currencies.add(new Currency("GBP", 0.75));
@@ -82,7 +75,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         double exchangeRateToUSD = reference.exchangeRateToUSD / exchangeRate;
 
         currencies.add(new Currency(normalizedName, exchangeRateToUSD));
-        saveCurrencyData(currencies);
+        saveCurrencyData();
     }
 
     @Override
@@ -110,16 +103,23 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     }
 
     @Override
-    public void saveCurrencyData(List<Currency> currencies) {
-        new DataWriter().writeDate(currencies);
+    public void saveCurrencyData() {
+        new DataWriter().writeDate(this.currencies);
     }
 
     @Override
     public void loadCurrencyData() {
-        List<Currency> loadedCurrencies = new DataLoader().loadData();
-        if (!loadedCurrencies.isEmpty()) {
+        try {
+            List<Currency> loadedCurrencies = new DataLoader().loadData();
+            if (loadedCurrencies.isEmpty()) {
+                initializeDefaultCurrencies();
+                return;
+            }
+
             currencies.clear();
             currencies.addAll(loadedCurrencies);
+        } catch (RuntimeException e) {
+            initializeDefaultCurrencies();
         }
     }
 

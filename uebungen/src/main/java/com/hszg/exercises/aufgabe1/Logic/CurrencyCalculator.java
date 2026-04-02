@@ -43,13 +43,10 @@ public interface CurrencyCalculator {
 
     
     /**
-     * Returns a list of all configured currencies.
+     * Saves the current list of currencies to a persistent storage (e.g., a JSON file) to ensure that added currencies are retained across application restarts.  * 
      * 
-     * @return a list of all configured currencies
-     *
-     * @param currencies the list of currencies to save
      */
-    void saveCurrencyData(List<Currency> currencies);
+    void saveCurrencyData();
 
 
     /**

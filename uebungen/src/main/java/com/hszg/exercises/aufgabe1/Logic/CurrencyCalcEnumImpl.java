@@ -85,8 +85,8 @@ public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
     }
 
     @Override
-    public void saveCurrencyData(List<Currency> currencies) {
-        new DataWriter().writeDate(currencies);
+    public void saveCurrencyData() {
+        new DataWriter().writeDate(getAllCurrencies());
     }
 
     @Override
