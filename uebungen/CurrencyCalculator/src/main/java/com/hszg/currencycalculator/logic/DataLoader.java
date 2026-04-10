@@ -1,6 +1,7 @@
 package com.hszg.currencycalculator.logic;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,12 +12,15 @@ import java.util.regex.Pattern;
 
 public class DataLoader {
 
+    private static final String DATA_DIRECTORY_NAME = "currency-data";
+    private static final String CURRENCIES_FILE_NAME = "currencies.json";
+
     private static final Pattern CURRENCY_OBJECT_PATTERN = Pattern.compile(
         "\\{\\s*\\\"name\\\"\\s*:\\s*\\\"((?:\\\\.|[^\\\"\\\\])*)\\\"\\s*,\\s*\\\"exchangeRateToUSD\\\"\\s*:\\s*([-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)\\s*\\}"
     );
 
     public List<Currency> loadData() {
-        return loadData("currencies.json");
+        return loadData(resolveDefaultCurrenciesPath());
     }
 
     public List<Currency> loadData(String fileName) {
@@ -37,6 +41,35 @@ public class DataLoader {
         }
 
         return parseCurrenciesJson(json);
+    }
+
+    private String resolveDefaultCurrenciesPath() {
+        return resolveRuntimeBaseDirectory()
+            .resolve(DATA_DIRECTORY_NAME)
+            .resolve(CURRENCIES_FILE_NAME)
+            .toString();
+    }
+
+    private Path resolveRuntimeBaseDirectory() {
+        try {
+            URI codeSourceUri = DataLoader.class
+                .getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .toURI();
+
+            Path codeSourcePath = Path.of(codeSourceUri).toAbsolutePath().normalize();
+            if (codeSourcePath.toString().toLowerCase().endsWith(".jar")) {
+                Path jarParent = codeSourcePath.getParent();
+                if (jarParent != null) {
+                    return jarParent;
+                }
+            }
+        } catch (Exception ignored) {
+            // Fallback below uses working directory.
+        }
+
+        return Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize();
     }
 
     private List<Currency> parseCurrenciesJson(String json) {
