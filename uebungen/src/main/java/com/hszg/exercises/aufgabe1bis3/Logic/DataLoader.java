@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic;
+package uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.aufgabe1.GUI;
+package uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -24,9 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcEnumImpl;
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalcImpl;
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1.Logic.CurrencyCalculator;
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.CurrencyCalcEnumImpl;
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.CurrencyCalcImpl;
+import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.CurrencyCalculator;
 
 public class AppMain {
 
