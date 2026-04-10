@@ -10,6 +10,8 @@ import java.util.List;
 
 public class DataWriter {
 
+    private static final String UEBUNGEN_DIRECTORY_NAME = "uebungen";
+    private static final String PROJECT_DIRECTORY_NAME = "CurrencyCalculator";
     private static final String DATA_DIRECTORY_NAME = "currency-data";
     private static final String CURRENCIES_FILE_NAME = "currencies.json";
 
@@ -44,10 +46,28 @@ public class DataWriter {
     }
 
     private String resolveDefaultCurrenciesPath() {
-        return resolveRuntimeBaseDirectory()
+        return resolveProjectDirectory()
             .resolve(DATA_DIRECTORY_NAME)
             .resolve(CURRENCIES_FILE_NAME)
             .toString();
+    }
+
+    private Path resolveProjectDirectory() {
+        Path runtimeBase = resolveRuntimeBaseDirectory();
+
+        // Preferred: existing workspace project directory at .../uebungen/CurrencyCalculator
+        Path preferredProjectDirectory = runtimeBase
+            .resolve(UEBUNGEN_DIRECTORY_NAME)
+            .resolve(PROJECT_DIRECTORY_NAME);
+        if (Files.isDirectory(preferredProjectDirectory)) {
+            return preferredProjectDirectory;
+        }
+
+        if (PROJECT_DIRECTORY_NAME.equalsIgnoreCase(runtimeBase.getFileName() != null ? runtimeBase.getFileName().toString() : "")) {
+            return runtimeBase;
+        }
+
+        return runtimeBase.resolve(PROJECT_DIRECTORY_NAME);
     }
 
     private Path resolveRuntimeBaseDirectory() {
