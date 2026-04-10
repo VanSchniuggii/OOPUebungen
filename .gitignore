@@ -1,3 +1,6 @@
 # Compiled Java classes
 *.class
 currencies.json
+uebungen/src/main/java/com/hszg/exercises/aufgabe1bis3/META_INFO/MANIFEST.MF
+.gitignore
+CurrCalc.jar
