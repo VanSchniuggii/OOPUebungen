@@ -1,10 +1,12 @@
 package com.hszg.currencycalculator.logic;
 
-import com.hszg.currencycalculator.logic.Currency;
-import com.hszg.currencycalculator.logic.CurrencyCalcImpl;
-import com.hszg.currencycalculator.logic.CurrencyCalculator;
-
 public class CurrencyCalcTest {
+
+    private static final double EPSILON = 1e-9;
+    private static final String EUR = "EUR (Euro)";
+    private static final String USD = "USD (US Dollar)";
+    private static final String GBP = "GBP (Great Britain Pound)";
+    private static final String AUD = "AUD (Australian Dollar)";
 
     static CurrencyCalculator currencyCalculator = new CurrencyCalcImpl();
 
@@ -66,23 +68,23 @@ public class CurrencyCalcTest {
     static private boolean testConvert() {
         boolean failed = false;
 
-        double convertedAmount = currencyCalculator.convert(100, "EUR", "USD");
+        double convertedAmount = currencyCalculator.convert(100, EUR, USD);
 
-        if (convertedAmount != 100/0.85) {
+        if (Math.abs(convertedAmount - (100/0.85)) > EPSILON) {
             failed = true;
             System.out.println("Test convert EUR to USD failed: expected " + (100/0.85) + ", got " + convertedAmount);
         }
 
-        convertedAmount = currencyCalculator.convert(100, "USD", "EUR");
+        convertedAmount = currencyCalculator.convert(100, USD, EUR);
 
-        if (convertedAmount != 85) {
+        if (Math.abs(convertedAmount - 85) > EPSILON) {
             failed = true;
             System.out.println("Test convert USD to EUR failed: expected 85, got " + convertedAmount);
         }
 
-        convertedAmount = currencyCalculator.convert(100, "EUR", "GBP");
+        convertedAmount = currencyCalculator.convert(100, EUR, GBP);
 
-        if (convertedAmount != 100*0.75/0.85) {
+        if (Math.abs(convertedAmount - (100*0.75/0.85)) > EPSILON) {
             failed = true;
             System.out.println("Test convert EUR to GBP failed: expected " + (100*0.75/0.85) + ", got " + convertedAmount);
         }
@@ -93,15 +95,16 @@ public class CurrencyCalcTest {
     static private boolean testAddCurrency() {
         boolean failed = false;
 
-        currencyCalculator.addCurrency("TST", 1.5, "USD");
+        String testCurrency = "TST-" + System.nanoTime();
+        currencyCalculator.addCurrency(testCurrency, 1.5, USD);
 
-            double convertedAmount = currencyCalculator.convert(100, "TST", "USD");
+            double convertedAmount = currencyCalculator.convert(100, testCurrency, USD);
             if (Math.abs(convertedAmount - 150.0) > 1e-9) {
                 failed = true;
                 System.out.println("Test convert AUD to USD failed: expected 150.0, got " + convertedAmount);
             }
 
-             convertedAmount = currencyCalculator.convert(100, "USD", "AUD");
+             convertedAmount = currencyCalculator.convert(100, USD, AUD);
 
         return failed;
     }
