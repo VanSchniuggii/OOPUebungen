@@ -1,4 +1,4 @@
-﻿package com.hszg.currencycalculator.gui;
+package com.hszg.currencycalculator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
