@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.plaenum1.Logic;
+package com.hszg.exercises.plaenum1.logic;
 
 public class FunctionModulo2 implements Function {
 
@@ -8,3 +8,4 @@ public class FunctionModulo2 implements Function {
     }
 
 }
+

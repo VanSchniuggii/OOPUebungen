@@ -1,8 +1,8 @@
-package uebungen.src.test.java;
+package com.hszg.currencycalculator.logic;
 
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.CurrencyCalcImpl;
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.CurrencyCalculator;
-import uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic.Currency;
+import com.hszg.currencycalculator.logic.Currency;
+import com.hszg.currencycalculator.logic.CurrencyCalcImpl;
+import com.hszg.currencycalculator.logic.CurrencyCalculator;
 
 public class CurrencyCalcTest {
 
@@ -109,3 +109,4 @@ public class CurrencyCalcTest {
 
 
 }
+

@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.plaenum1.Logic;
+package com.hszg.exercises.plaenum1.logic;
 
 public class FunctionSQRT implements Function {
 
@@ -11,3 +11,4 @@ public class FunctionSQRT implements Function {
     }
 
 }
+

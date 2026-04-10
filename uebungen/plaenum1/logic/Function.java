@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.plaenum1.Logic;
+package com.hszg.exercises.plaenum1.logic;
 
 /**
  * Represents a function that maps an integer input to an integer output.
@@ -14,3 +14,4 @@ public interface Function {
     int execute(int x);
 
 }
+

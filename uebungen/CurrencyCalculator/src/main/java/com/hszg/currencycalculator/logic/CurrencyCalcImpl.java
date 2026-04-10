@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic;
+package com.hszg.currencycalculator.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,3 +124,4 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     }
 
 }
+

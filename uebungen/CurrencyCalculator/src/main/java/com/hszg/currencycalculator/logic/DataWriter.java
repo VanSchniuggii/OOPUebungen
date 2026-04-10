@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic;
+package com.hszg.currencycalculator.logic;
 
 import java.util.List;
 import java.io.FileWriter;
@@ -61,3 +61,4 @@ public class DataWriter {
     }
 
 }
+

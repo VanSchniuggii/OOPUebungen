@@ -1,4 +1,4 @@
-package uebungen.src.main.java.com.hszg.exercises.aufgabe1bis3.Logic;
+package com.hszg.currencycalculator.logic;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -103,3 +103,4 @@ public class DataLoader {
     }
 
 }
+
