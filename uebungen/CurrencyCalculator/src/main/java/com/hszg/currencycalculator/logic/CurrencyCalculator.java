@@ -3,7 +3,13 @@ package com.hszg.currencycalculator.logic;
 import java.util.List;
 
 /**
- * Defines operations for converting between currencies and managing available currencies.
+ * Defines operations for converting between currencies and managing available currencies. Such as:
+ * <ul>
+ *      <li><b>Converting</b> an amount from one currency to another.</li>
+ *      <li><b>Retrieving</b> exchange rates between currencies.</li>
+ *      <li><b>Adding</b> new currencies with their exchange rates relative to a reference currency.</li>
+ *      <li><b>Getting a list</b> of all available currency names.</li>
+ * </ul>
  */
 public interface CurrencyCalculator {
     /**
