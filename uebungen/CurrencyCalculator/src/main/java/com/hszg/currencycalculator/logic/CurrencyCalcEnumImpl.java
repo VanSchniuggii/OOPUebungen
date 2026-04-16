@@ -6,7 +6,6 @@ import java.util.List;
 
 public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
 
-
     EUR(new Currency("EUR (Euro)", 0.85)),
     USD(new Currency("USD (US Dollar)", 1.0)),
     GBP(new Currency("GBP (Great Britain Pound)", 0.75)),
@@ -49,7 +48,7 @@ public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
 
     @Override
     public double getExchangeRate(Currency fromCurrency, Currency toCurrency) {
-        return toCurrency.exchangeRateToUSD / fromCurrency.exchangeRateToUSD;
+        return toCurrency.getExchangeRate() / fromCurrency.getExchangeRate();
     }
 
     @Override
@@ -61,7 +60,7 @@ public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
     public List<String> getCurrencyNames() {
         List<String> names = new java.util.ArrayList<>();
         for (CurrencyCalcEnumImpl c : CurrencyCalcEnumImpl.values()) {
-            names.add(c.currency.name);
+            names.add(c.currency.getName());
         }
         Collections.sort(names);
         return names;
@@ -69,7 +68,7 @@ public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
 
     private Currency findCurrencyByName(String name) {
         for (CurrencyCalcEnumImpl c : CurrencyCalcEnumImpl.values()) {
-            if (c.currency.name.equals(name)) {
+            if (c.currency.getName().equals(name)) {
                 return c.currency;
             }
         }

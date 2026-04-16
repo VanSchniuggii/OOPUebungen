@@ -28,7 +28,7 @@ import com.hszg.currencycalculator.logic.CurrencyCalculator;
 
 public class AppMain {
 
-	static CurrencyCalculator currencyCalc = new CurrencyCalcImpl();
+	private static CurrencyCalculator currencyCalc = new CurrencyCalcImpl();
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(AppMain::createAndShowUI);
