@@ -4,4 +4,5 @@ currencies.json
 .gitignore
 CurrCalc.jar
 uebungen/CurrencyCalculator/out/javadoc/
+uebungen/CurrencyCalculator/dist/currencycalculator.jar
 
