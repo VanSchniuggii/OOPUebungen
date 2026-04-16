@@ -10,6 +10,8 @@ import java.util.List;
  *      <li><b>Adding</b> new currencies with their exchange rates relative to a reference currency.</li>
  *      <li><b>Getting a list</b> of all available currency names.</li>
  * </ul>
+ * @author Szczuka, Alexander
+ * @author Richard
  */
 public interface CurrencyCalculator {
     /**
