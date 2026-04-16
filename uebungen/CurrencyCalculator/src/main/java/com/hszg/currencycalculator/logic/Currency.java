@@ -1,4 +1,11 @@
 package com.hszg.currencycalculator.logic;
+
+/**
+ * Represents a currency with its name and exchange rate relative to a reference currency (e.g., USD).
+ * This class encapsulates the properties of a currency and provides methods to access and modify them.
+ * @author Szczuka, Alexander
+ * @author Wölflick, Richard
+ */
 public class Currency {
 
     private String name;
