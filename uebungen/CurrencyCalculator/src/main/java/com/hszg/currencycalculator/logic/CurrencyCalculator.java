@@ -11,7 +11,7 @@ import java.util.List;
  *      <li><b>Getting a list</b> of all available currency names.</li>
  * </ul>
  * @author Szczuka, Alexander
- * @author Richard
+ * @author Wölflick, Richard
  */
 public interface CurrencyCalculator {
     /**
