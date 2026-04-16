@@ -9,7 +9,7 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
     private final List<Currency> currencies = new ArrayList<>();
 
     public CurrencyCalcImpl() {
-        loadCurrencyData();
+        initializeDefaultCurrencies();
     }
 
     private void initializeDefaultCurrencies() {
@@ -75,7 +75,6 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         double exchangeRateToUSD = reference.exchangeRateToUSD / exchangeRate;
 
         currencies.add(new Currency(normalizedName, exchangeRateToUSD));
-        saveCurrencyData();
     }
 
     @Override
@@ -100,27 +99,6 @@ public class CurrencyCalcImpl implements CurrencyCalculator {
         }
 
         throw new IllegalArgumentException("Unknown currency: " + name);
-    }
-
-    @Override
-    public void saveCurrencyData() {
-        new DataWriter().writeDate(this.currencies);
-    }
-
-    @Override
-    public void loadCurrencyData() {
-        try {
-            List<Currency> loadedCurrencies = new DataLoader().loadData();
-            if (loadedCurrencies.isEmpty()) {
-                initializeDefaultCurrencies();
-                return;
-            }
-
-            currencies.clear();
-            currencies.addAll(loadedCurrencies);
-        } catch (RuntimeException e) {
-            initializeDefaultCurrencies();
-        }
     }
 
 }

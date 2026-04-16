@@ -75,24 +75,5 @@ public enum CurrencyCalcEnumImpl implements CurrencyCalculator {
         }
         throw new IllegalArgumentException("Currency not found: " + name);
     }
-
-    private List<Currency> getAllCurrencies() {
-        List<Currency> currencies = new java.util.ArrayList<>();
-        for (CurrencyCalcEnumImpl c : CurrencyCalcEnumImpl.values()) {
-            currencies.add(c.currency);
-        }
-        return currencies;
-    }
-
-    @Override
-    public void saveCurrencyData() {
-        new DataWriter().writeDate(getAllCurrencies());
-    }
-
-    @Override
-    public void loadCurrencyData() {
-        throw new UnsupportedOperationException("Loading currencies is not supported in the enum implementation.");
-    }
-
 }
 

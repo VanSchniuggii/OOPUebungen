@@ -39,16 +39,6 @@ public class AppMain {
 	private static void createAndShowUI() {
 		JFrame frame = new JFrame("Currency Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				try {
-					currencyCalc.saveCurrencyData();
-				} catch (Exception ex) {
-					System.err.println("Failed to save currency data on app close: " + ex.getMessage());
-				}
-			}
-		});
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu settingsMenu = new JMenu("Settings");
@@ -264,11 +254,6 @@ public class AppMain {
 		});
 
 		standardImplItem.addActionListener(event -> {
-			try {
-				currencyCalc.saveCurrencyData();
-			} catch (Exception ex) {
-				System.err.println("Failed to save currency data before switching implementation: " + ex.getMessage());
-			}
 			currencyCalc = new CurrencyCalcImpl();
 			switchAddCurrencyAvailability.run();
 			refreshCurrencySelectors.run();
@@ -278,18 +263,18 @@ public class AppMain {
 		enumImplItem.addActionListener(event -> {
 			CurrencyCalculator previousImplementation = currencyCalc;
 			try {
-				currencyCalc.saveCurrencyData();
 				currencyCalc = CurrencyCalcEnumImpl.EUR;
 				switchAddCurrencyAvailability.run();
 				refreshCurrencySelectors.run();
 				recalculate.run();
 			} catch (Exception e) {
 				currencyCalc = previousImplementation;
+				switchAddCurrencyAvailability.run();
 				refreshCurrencySelectors.run();
 				recalculate.run();
 				JOptionPane.showMessageDialog(frame,
-						"CurrencyCalcEnumImpl is not ready yet. Standard implementation remains active.",
-						"Implementation Not Ready",
+						"Could not switch to enum implementation. Standard implementation remains active.",
+						"Switch Failed",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		});
