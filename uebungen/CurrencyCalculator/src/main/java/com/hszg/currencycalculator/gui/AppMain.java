@@ -38,6 +38,10 @@ public class AppMain {
 		JFrame frame = new JFrame("Currency Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+		/*
+		/ Menubar-setup
+		/ Contains option for switching between Standart and Enum Implementation of the Currency Calculator */
 		JMenuBar menuBar = new JMenuBar();
 		JMenu settingsMenu = new JMenu("Settings");
 		JMenuItem standardImplItem = new JMenuItem("Use standard implementation");
@@ -47,11 +51,13 @@ public class AppMain {
 		menuBar.add(settingsMenu);
 		frame.setJMenuBar(menuBar);
 
+		/* Main content panel setup */
 		JPanel content = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(8, 8, 8, 8);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
+		/* UI components setup */
 		JLabel converterHeading = new JLabel("Currency Converter");
 		converterHeading.setFont(converterHeading.getFont().deriveFont(java.awt.Font.BOLD, 16f));
 		JSeparator addSectionSeparator = new JSeparator();
@@ -164,6 +170,7 @@ public class AppMain {
 			
 		};
 
+		// Layout of UI components using GridBagLayout
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 4;
